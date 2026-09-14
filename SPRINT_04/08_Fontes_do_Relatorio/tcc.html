@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Prazo60 · Relatório</title>
+<style>
+  @page { size: A4; margin: 25mm 20mm 22mm 30mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.5; color: #1F1B1E; margin: 0; }
+  h1 { break-before: page; font-size: 14pt; text-transform: uppercase; color: #8E1446; margin: 0 0 12pt; padding-bottom: 4pt; border-bottom: 1.2pt solid #C2185B; letter-spacing: 0.02em; }
+  h1.sem-quebra { break-before: auto; }
+  h2 { font-size: 12pt; margin: 16pt 0 6pt; break-after: avoid; color: #231E22; }
+  h3 { font-size: 11pt; margin: 12pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 7pt; text-align: justify; text-indent: 12.5mm; }
+  p.sem-recuo, li p { text-indent: 0; }
+  ul, ol { margin: 0 0 8pt 8mm; padding: 0; }
+  li { margin-bottom: 3pt; text-align: justify; }
+  .marca { color: #FFFFFF; font-size: 1pt; text-transform: none; letter-spacing: 0; }
+  a { color: #8E1446; text-decoration: none; overflow-wrap: anywhere; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; background: #F5EFF2; padding: 0 2pt; }
+  pre { font-family: Consolas, "Courier New", monospace; font-size: 8.4pt; line-height: 1.35; background: #F7F3F5; border: 0.5pt solid #E2D3DA; padding: 6pt 8pt; white-space: pre-wrap; break-inside: avoid; margin: 4pt 0 10pt; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.2pt; line-height: 1.35; margin: 3pt 0 4pt; break-inside: avoid; }
+  th, td { border: 0.5pt solid #A99DA3; padding: 3pt 5pt; text-align: left; vertical-align: top; }
+  th { background: #F3E6EC; font-weight: bold; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .legenda { font-size: 9.5pt; font-weight: bold; text-align: center; text-indent: 0; margin: 10pt 0 2pt; break-after: avoid; }
+  .fonte { font-size: 8.5pt; text-indent: 0; margin: 0 0 10pt; color: #4A4148; }
+  figure { margin: 8pt 0 10pt; break-inside: avoid; text-align: center; }
+  figure img { width: 100%; border: 0.5pt solid #CFC3C9; display: block; }
+  figure.estreita img { width: 55%; margin: 0 auto; }
+  figcaption { font-size: 9.5pt; font-weight: bold; margin-bottom: 3pt; }
+  .destaque { border-left: 3pt solid #C2185B; background: #FBF1F5; padding: 6pt 10pt; margin: 6pt 0 10pt; break-inside: avoid; }
+  .destaque p { text-indent: 0; margin: 0; }
+  .formula { text-align: center; font-family: "Times New Roman", serif; font-size: 12pt; margin: 6pt 0 10pt; text-indent: 0; }
+  .resumo p { text-indent: 0; }
+  .palavras { text-indent: 0; margin-top: 8pt; }
+  .toc { list-style: none; margin: 0; padding: 0; }
+  .toc li { display: flex; align-items: baseline; margin: 0 0 1.6pt; text-align: left; line-height: 1.35; }
+  .toc li.n1 { font-weight: bold; margin-top: 4.5pt; text-transform: uppercase; font-size: 10pt; }
+  .toc li.n2 { padding-left: 8mm; font-size: 10pt; }
+  .toc .pontos { flex: 1; border-bottom: 0.8pt dotted #8A7F85; margin: 0 4pt 3pt; }
+  .toc .pg { min-width: 14pt; text-align: right; }
+  .ref p { text-indent: 0; text-align: left; margin-bottom: 8pt; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6pt; margin: 6pt 0 12pt; break-inside: avoid; }
+  .kpi { border: 0.5pt solid #E2D3DA; border-top: 2.5pt solid #C2185B; padding: 5pt 7pt; }
+  .kpi b { display: block; font-size: 16pt; color: #8E1446; line-height: 1.15; }
+  .kpi span { font-size: 8.5pt; color: #4A4148; line-height: 1.25; display: block; }
+  svg text { font-family: Arial, Helvetica, sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- ===================== RESUMO ===================== -->
+<h1 class="sem-quebra">Resumo <span class="marca">§sec-resumo§</span></h1>
+<div class="resumo">
+<p>A Lei nº 12.732/2012 estabelece que o paciente com câncer deve iniciar o primeiro tratamento no Sistema Único de Saúde (SUS) em até 60 dias contados do diagnóstico. Este trabalho, desenvolvido para o Challenge da FIAP com avaliação da banca da Oracle, apresenta o Prazo60, uma plataforma web de inteligência em saúde pública que transforma dados públicos em diagnóstico, localização de gargalos e apoio à decisão sobre o cumprimento desse prazo nos casos de câncer de mama (CID-10 C50) em mulheres no Estado de São Paulo. Foram analisados 45.416 casos com diagnóstico entre janeiro de 2022 e abril de 2026, provenientes do Painel-Oncologia (INCA/DATASUS), integrados a indicadores territoriais de oferta, ao Cadastro Nacional de Estabelecimentos de Saúde (CNES) e à malha municipal do IBGE. A solução combina ETL em Python com minimização de dados, banco Oracle Autonomous Database, API FastAPI com autenticação e agregação com supressão de grupos pequenos, interface com doze páginas analíticas, localizador de unidades, simulador de encaminhamento com premissas explícitas, relatório Power BI incorporado e consultas em linguagem natural por meio do Oracle Select AI, com o modelo Google Gemini operando sobre views agregadas. Os resultados mostram que 61,3% das pacientes iniciaram o tratamento após o prazo legal, com mediana de 79 dias e forte heterogeneidade regional: de 44,6% no Departamento Regional de Saúde (DRS) IX – Marília a 84,3% no DRS XIV – São João da Boa Vista. A validação recalculou 34 indicadores regionais sem divergências e 35 testes automatizados confirmaram segurança e consistência. A plataforma está publicada e demonstra o encadeamento problema, evidência, localização, alternativa, simulação e decisão, respeitando a Lei Geral de Proteção de Dados e explicitando suas limitações.</p>
+<p class="palavras"><b>Palavras-chave:</b> câncer de mama; Lei nº 12.732/2012; saúde pública; apoio à decisão; Oracle Select AI.</p>
+</div>
+
+<h2 style="break-before:page; margin-top:0; font-size:14pt; text-transform:uppercase; color:#8E1446; padding-bottom:4pt; border-bottom:1.2pt solid #C2185B;">Abstract</h2>
+<div class="resumo">
+<p>Brazilian Law No. 12,732/2012 establishes that cancer patients must start their first treatment in the Unified Health System (SUS) within 60 days of diagnosis. This work, developed for the FIAP Challenge and evaluated by an Oracle panel, presents Prazo60, a public health intelligence web platform that turns open data into diagnosis, bottleneck location and decision support regarding compliance with this deadline for female breast cancer cases (ICD-10 C50) in the State of São Paulo. A total of 45,416 cases diagnosed between January 2022 and April 2026 from Painel-Oncologia (INCA/DATASUS) were analyzed and integrated with territorial supply indicators, the national health facility registry (CNES) and IBGE municipal data. The solution combines a Python ETL with data minimization, Oracle Autonomous Database, a FastAPI service with authentication and small-cell suppression, a twelve-page analytical interface, a facility locator, a referral simulator with explicit assumptions, an embedded Power BI report and natural language queries through Oracle Select AI using the Google Gemini model over aggregated views. Results show that 61.3% of patients started treatment after the legal deadline, with a median of 79 days and strong regional heterogeneity, from 44.6% in Regional Health Department IX – Marília to 84.3% in Department XIV – São João da Boa Vista. Validation recomputed 34 regional indicators with no discrepancies and 35 automated tests confirmed security and consistency. The platform is deployed and demonstrates the chain from problem to evidence, location, alternative, simulation and decision, in compliance with Brazil's data protection law and with its limitations made explicit.</p>
+<p class="palavras"><b>Keywords:</b> breast cancer; Law 12,732/2012; public health; decision support; Oracle Select AI.</p>
+</div>
+
+<!-- ===================== SUMARIO ===================== -->
+<h1>Sumário</h1>
+<ul class="toc">
+  <li class="n1"><span>1 Introdução</span><span class="pontos"></span><span class="pg" data-ref="sec-1"></span></li>
+  <li class="n2"><span>1.1 Contexto e problema</span><span class="pontos"></span><span class="pg" data-ref="sec-1-1"></span></li>
+  <li class="n2"><span>1.2 Objetivos</span><span class="pontos"></span><span class="pg" data-ref="sec-1-2"></span></li>
+  <li class="n2"><span>1.3 Justificativa</span><span class="pontos"></span><span class="pg" data-ref="sec-1-3"></span></li>
+  <li class="n2"><span>1.4 Trajetória no Challenge e acesso ao projeto</span><span class="pontos"></span><span class="pg" data-ref="sec-1-4"></span></li>
+  <li class="n1"><span>2 Referencial teórico</span><span class="pontos"></span><span class="pg" data-ref="sec-2"></span></li>
+  <li class="n2"><span>2.1 Marco legal do tempo até o tratamento</span><span class="pontos"></span><span class="pg" data-ref="sec-2-1"></span></li>
+  <li class="n2"><span>2.2 Rede oncológica e regionalização em São Paulo</span><span class="pontos"></span><span class="pg" data-ref="sec-2-2"></span></li>
+  <li class="n2"><span>2.3 Dados públicos, inteligência de negócios e apoio à decisão</span><span class="pontos"></span><span class="pg" data-ref="sec-2-3"></span></li>
+  <li class="n2"><span>2.4 Modelos de linguagem e consultas em linguagem natural</span><span class="pontos"></span><span class="pg" data-ref="sec-2-4"></span></li>
+  <li class="n2"><span>2.5 Proteção de dados de saúde</span><span class="pontos"></span><span class="pg" data-ref="sec-2-5"></span></li>
+  <li class="n1"><span>3 Metodologia</span><span class="pontos"></span><span class="pg" data-ref="sec-3"></span></li>
+  <li class="n2"><span>3.1 Caracterização da pesquisa</span><span class="pontos"></span><span class="pg" data-ref="sec-3-1"></span></li>
+  <li class="n2"><span>3.2 Fontes, recorte e tratamento</span><span class="pontos"></span><span class="pg" data-ref="sec-3-2"></span></li>
+  <li class="n2"><span>3.3 Indicadores e regras</span><span class="pontos"></span><span class="pg" data-ref="sec-3-3"></span></li>
+  <li class="n2"><span>3.4 Modelo de simulação</span><span class="pontos"></span><span class="pg" data-ref="sec-3-4"></span></li>
+  <li class="n2"><span>3.5 Processo de desenvolvimento e validação</span><span class="pontos"></span><span class="pg" data-ref="sec-3-5"></span></li>
+  <li class="n1"><span>4 Desenvolvimento</span><span class="pontos"></span><span class="pg" data-ref="sec-4"></span></li>
+  <li class="n2"><span>4.1 Arquitetura</span><span class="pontos"></span><span class="pg" data-ref="sec-4-1"></span></li>
+  <li class="n2"><span>4.2 Banco de dados Oracle</span><span class="pontos"></span><span class="pg" data-ref="sec-4-2"></span></li>
+  <li class="n2"><span>4.3 Servidor, API e interface</span><span class="pontos"></span><span class="pg" data-ref="sec-4-3"></span></li>
+  <li class="n2"><span>4.4 Prazo60 AI</span><span class="pontos"></span><span class="pg" data-ref="sec-4-4"></span></li>
+  <li class="n2"><span>4.5 Segurança e publicação</span><span class="pontos"></span><span class="pg" data-ref="sec-4-5"></span></li>
+  <li class="n2"><span>4.6 Arquitetura de referência e pipeline das Sprints 3 e 4</span><span class="pontos"></span><span class="pg" data-ref="sec-4-6"></span></li>
+  <li class="n2"><span>4.7 Painel Power BI</span><span class="pontos"></span><span class="pg" data-ref="sec-4-7"></span></li>
+  <li class="n1"><span>5 Resultados</span><span class="pontos"></span><span class="pg" data-ref="sec-5"></span></li>
+  <li class="n2"><span>5.1 Cumprimento do prazo legal</span><span class="pontos"></span><span class="pg" data-ref="sec-5-1"></span></li>
+  <li class="n2"><span>5.2 Desigualdades regionais e gargalos</span><span class="pontos"></span><span class="pg" data-ref="sec-5-2"></span></li>
+  <li class="n2"><span>5.3 Demanda e oferta</span><span class="pontos"></span><span class="pg" data-ref="sec-5-3"></span></li>
+  <li class="n2"><span>5.4 Localizador e simulação</span><span class="pontos"></span><span class="pg" data-ref="sec-5-4"></span></li>
+  <li class="n2"><span>5.5 Consultas em linguagem natural</span><span class="pontos"></span><span class="pg" data-ref="sec-5-5"></span></li>
+  <li class="n2"><span>5.6 Validação e testes</span><span class="pontos"></span><span class="pg" data-ref="sec-5-6"></span></li>
+  <li class="n2"><span>5.7 Plataforma em funcionamento</span><span class="pontos"></span><span class="pg" data-ref="sec-5-7"></span></li>
+  <li class="n2"><span>5.8 Painel Power BI e conciliação com a plataforma</span><span class="pontos"></span><span class="pg" data-ref="sec-5-8"></span></li>
+  <li class="n1"><span>6 Discussão e limitações</span><span class="pontos"></span><span class="pg" data-ref="sec-6"></span></li>
+  <li class="n1"><span>7 Conclusão</span><span class="pontos"></span><span class="pg" data-ref="sec-7"></span></li>
+  <li class="n1"><span>Referências</span><span class="pontos"></span><span class="pg" data-ref="sec-ref"></span></li>
+  <li class="n1"><span>Apêndice A – Acessos, ambientes e segredos</span><span class="pontos"></span><span class="pg" data-ref="sec-apa"></span></li>
+  <li class="n1"><span>Apêndice B – Artefatos, scripts e API</span><span class="pontos"></span><span class="pg" data-ref="sec-apb"></span></li>
+  <li class="n1"><span>Apêndice C – Histórico de decisões</span><span class="pontos"></span><span class="pg" data-ref="sec-apc"></span></li>
+  <li class="n1"><span>Apêndice D – Glossário</span><span class="pontos"></span><span class="pg" data-ref="sec-apd"></span></li>
+</ul>
+
+<!-- ===================== 1 INTRODUCAO ===================== -->
+<h1>1 Introdução <span class="marca">§sec-1§</span></h1>
+<h2 style="margin-top:0">1.1 Contexto e problema <span class="marca">§sec-1-1§</span></h2>
+<p>O câncer de mama é o tipo de câncer mais incidente entre as mulheres no Brasil, excluídos os tumores de pele não melanoma. A estimativa do Instituto Nacional de Câncer para o triênio 2023–2025 é de 73.610 casos novos por ano (INCA, 2022). Nesse contexto, o tempo entre a confirmação diagnóstica e o início do tratamento é um indicador central da qualidade do acesso, pois atrasos prolongados podem comprometer as possibilidades terapêuticas.</p>
+<p>A Lei nº 12.732/2012 garante ao paciente com neoplasia maligna o direito de iniciar o primeiro tratamento no SUS em até 60 dias a partir do diagnóstico registrado em prontuário (BRASIL, 2012). Embora exista uma base de dados pública que permite acompanhar esse tempo, o Painel-Oncologia, a informação costuma chegar ao gestor de forma dispersa e pouco orientada a perguntas práticas: onde o prazo é descumprido, com que intensidade, por quais fatores e quais alternativas podem ser avaliadas.</p>
+<div class="destaque"><p><b>Questão de pesquisa:</b> as pacientes com câncer de mama no SUS do Estado de São Paulo iniciam o tratamento em até 60 dias? Quando não iniciam, onde o problema acontece e quais alternativas podem ser avaliadas com os dados disponíveis?</p></div>
+
+<h2>1.2 Objetivos <span class="marca">§sec-1-2§</span></h2>
+<p><b>Objetivo geral:</b> desenvolver e publicar uma plataforma web de inteligência em saúde pública que monitore o cumprimento do prazo legal de 60 dias no tratamento do câncer de mama no SUS-SP e apoie a tomada de decisão de gestores.</p>
+<p class="sem-recuo"><b>Objetivos específicos:</b></p>
+<ol>
+  <li>integrar e validar dados públicos de casos, oferta habilitada, estabelecimentos e municípios, com minimização de dados pessoais;</li>
+  <li>calcular indicadores de cumprimento do prazo, evolução temporal, desigualdade regional e pressão assistencial;</li>
+  <li>identificar automaticamente regiões e municípios críticos por regras explícitas e gerar recomendações fundamentadas;</li>
+  <li>oferecer localização de unidades oncológicas compatíveis e simulação de cenários de redistribuição, distinguindo dado real, estimativa e simulação;</li>
+  <li>permitir consultas em linguagem natural sobre a base completa, com rastreabilidade do SQL gerado;</li>
+  <li>publicar a solução com autenticação, segurança e conformidade com a LGPD, documentando fontes, métodos e limitações.</li>
+</ol>
+
+<h2>1.3 Justificativa <span class="marca">§sec-1-3§</span></h2>
+<p>O acompanhamento de um direito legal com impacto direto sobre a vida das pacientes exige mais do que a publicação de números. Gestores precisam compreender rapidamente a situação, localizar os problemas, investigar fatores relacionados e testar alternativas antes de decidir. Ao mesmo tempo, dados de saúde são sensíveis e exigem cuidado com privacidade. O Prazo60 se justifica por reunir esses requisitos em um único produto de dados, com transparência metodológica e sem apresentar simulações como se fossem realidade operacional. O projeto foi desenvolvido pelo grupo Dataholics no Challenge da FIAP, cuja banca avaliadora é composta pela Oracle; por isso, o Oracle Autonomous Database e o Oracle Select AI ocupam papel central na solução. O trabalho está organizado em referencial teórico (capítulo 2), metodologia (3), desenvolvimento (4), resultados (5), discussão e limitações (6) e conclusão (7).</p>
+
+<h2>1.4 Trajetória no Challenge e acesso ao projeto <span class="marca">§sec-1-4§</span></h2>
+<p>O Enterprise Challenge Oracle x FIAP (turma 1TSCPV) propõe o desenvolvimento de um Painel Inteligente de Acesso Hospitalar e Perfil de Atendimento com base em dados públicos do DATASUS e do ecossistema de dados abertos do Ministério da Saúde, capaz de responder perguntas críticas de gestão sem depender constantemente de analistas especializados em SQL. O Prazo60 direciona esse desafio a um recorte concreto e mensurável: o cumprimento da Lei nº 12.732/2012 no câncer de mama. A solução foi construída ao longo de quatro sprints, cujas entregas estão reunidas no repositório unificado do projeto.</p>
+<p class="legenda">Tabela 1 – Entregas do projeto ao longo do Challenge</p>
+<table>
+  <tr><th style="width:15%">Sprint</th><th>Entregas (pasta <code>entregas/</code> do repositório unificado)</th></tr>
+  <tr><td>Sprint 1</td><td>Ideação do projeto: problema, público e proposta de valor</td></tr>
+  <tr><td>Sprint 2</td><td>Arquitetura da solução</td></tr>
+  <tr><td>Sprint 3</td><td>Entregas por disciplina: modelo relacional Oracle com a view <code>VW_FILA_PRAZO</code> e scripts DDL/DML (Smart SQL &amp; Relational Databases); pipeline <code>pipeline_datasus.py</code> (Building Data-Driven Applications for Data Science); notebook de análise estatística (Statistical Methods for Data Science &amp; Machine Learning); evidências de arquitetura de dados (Modern Data Architecture &amp; Engineering; Data Architecture, Analytics &amp; NoSQL Solutions); proposta de governança ética OES (Data Ethics, Governance &amp; Security in the AI Agent)</td></tr>
+  <tr><td>Sprint 4 e entrega final</td><td>Relatório técnico, painel Power BI com três abas, plataforma web Prazo60 com Oracle Autonomous Database e Select AI, e este relatório</td></tr>
+</table>
+<p class="fonte">Fonte: repositório do projeto e relatório técnico da Sprint 4 (2026).</p>
+<p class="legenda">Tabela 2 – Onde acessar o projeto</p>
+<table>
+  <tr><th style="width:26%">Recurso</th><th>Endereço</th></tr>
+  <tr><td>Plataforma web (produção)</td><td><a href="https://prazo60.onrender.com">https://prazo60.onrender.com</a> · credenciais de avaliação no Apêndice A</td></tr>
+  <tr><td>Repositório GitHub unificado</td><td><a href="https://github.com/bambulimeduardo-design/prazo60-plataforma">https://github.com/bambulimeduardo-design/prazo60-plataforma</a></td></tr>
+  <tr><td>Painel Power BI</td><td><a href="https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi">https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi</a></td></tr>
+  <tr><td>Vídeo do projeto (YouTube)</td><td><a href="https://youtu.be/S02jso3E94o">https://youtu.be/S02jso3E94o</a></td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<!-- ===================== 2 REFERENCIAL ===================== -->
+<h1>2 Referencial teórico <span class="marca">§sec-2§</span></h1>
+<h2 style="margin-top:0">2.1 Marco legal do tempo até o tratamento <span class="marca">§sec-2-1§</span></h2>
+<p>A Lei nº 12.732, de 22 de novembro de 2012, dispõe sobre o primeiro tratamento de paciente com neoplasia maligna comprovada e fixa o prazo de até 60 dias, contados do diagnóstico em laudo patológico, para o início do tratamento no SUS (BRASIL, 2012). A Lei nº 13.896/2019 complementou esse marco ao determinar que os exames necessários à elucidação diagnóstica sejam realizados em até 30 dias quando houver suspeita de neoplasia maligna (BRASIL, 2019a). O Prazo60 concentra-se no intervalo definido pela primeira lei, isto é, do diagnóstico ao primeiro tratamento.</p>
+
+<h2>2.2 Rede oncológica e regionalização em São Paulo <span class="marca">§sec-2-2§</span></h2>
+<p>A atenção de alta complexidade em oncologia no SUS é prestada por estabelecimentos habilitados como Unidades de Assistência de Alta Complexidade em Oncologia (UNACON) ou Centros de Assistência de Alta Complexidade em Oncologia (CACON), segundo critérios definidos pelo Ministério da Saúde (BRASIL, 2019b). No Estado de São Paulo, a Secretaria de Estado da Saúde organiza os 645 municípios em 17 Departamentos Regionais de Saúde (DRS), responsáveis pela coordenação regional da rede e pela articulação de fluxos entre municípios (SÃO PAULO, 2026). A regionalização é, portanto, a unidade natural de análise para comparar desempenho, oferta e deslocamento de pacientes.</p>
+
+<h2>2.3 Dados públicos, inteligência de negócios e apoio à decisão <span class="marca">§sec-2-3§</span></h2>
+<p>O Painel-Oncologia, disponibilizado pelo DATASUS, reúne registros do SUS que permitem calcular o tempo entre diagnóstico e tratamento por localização, período e estabelecimento (BRASIL, 2026). Soluções de inteligência de negócios transformam esses registros em indicadores, painéis e alertas. Para que apoiem decisões, e não apenas descrevam números, precisam responder perguntas explícitas, documentar fórmulas e fontes, e separar claramente o que é observado do que é estimado ou simulado. Modelos de filas, como o M/M/1, oferecem uma base conhecida para raciocinar sobre o efeito da carga sobre o tempo de espera (KLEINROCK, 1975), desde que suas premissas sejam declaradas.</p>
+
+<h2>2.4 Modelos de linguagem e consultas em linguagem natural <span class="marca">§sec-2-4§</span></h2>
+<p>Modelos de linguagem de grande porte podem converter perguntas em linguagem natural em consultas SQL a partir dos metadados do banco. O Oracle Select AI incorpora essa capacidade ao Autonomous Database por meio do pacote <code>DBMS_CLOUD_AI</code>, com perfis que definem o provedor do modelo, a credencial e a lista de objetos permitidos (ORACLE, 2026). Como o modelo pode interpretar mal uma pergunta ou gerar consultas inválidas, boas práticas incluem restringir os objetos visíveis, executar com usuário somente leitura, validar o comando gerado e exibir o SQL ao usuário para conferência.</p>
+
+<h2>2.5 Proteção de dados de saúde <span class="marca">§sec-2-5§</span></h2>
+<p>A Lei Geral de Proteção de Dados Pessoais classifica dados referentes à saúde como dados pessoais sensíveis (art. 5º, II), impõe o princípio da necessidade, que limita o tratamento ao mínimo necessário (art. 6º, III), e estabelece regras específicas para o tratamento de dados sensíveis (art. 11). Dados anonimizados não são considerados dados pessoais, salvo quando o processo de anonimização puder ser revertido (art. 12) (BRASIL, 2018). Em estatísticas agregadas, a supressão de células com poucos casos é uma prática usual para reduzir o risco de reidentificação.</p>
+
+<!-- ===================== 3 METODOLOGIA ===================== -->
+<h1>3 Metodologia <span class="marca">§sec-3§</span></h1>
+<h2 style="margin-top:0">3.1 Caracterização da pesquisa <span class="marca">§sec-3-1§</span></h2>
+<p>Trata-se de pesquisa aplicada, de abordagem quantitativa e caráter descritivo, combinada ao desenvolvimento de um artefato tecnológico. A análise usa dados secundários públicos e o artefato foi construído de forma iterativa, com validação numérica e testes automatizados a cada etapa.</p>
+
+<h2>3.2 Fontes, recorte e tratamento <span class="marca">§sec-3-2§</span></h2>
+<p class="legenda">Tabela 1 – Fontes de dados utilizadas</p>
+<table>
+  <tr><th>Fonte</th><th>Conteúdo</th><th>Uso no Prazo60</th></tr>
+  <tr><td>Painel-Oncologia (INCA/DATASUS), extrato POBR</td><td>Casos C50 femininos em SP com datas de diagnóstico e de início do tratamento</td><td>Indicadores de prazo</td></tr>
+  <tr><td>Painel-Oncologia, indicadores territoriais</td><td>Estabelecimentos CACON/UNACON e mamografias de rastreio por DRS e ano</td><td>Oferta e pressão assistencial</td></tr>
+  <tr><td>CNES e deliberações da CIB-SP</td><td>Estabelecimento tratante; nome e habilitação confirmados de 20 unidades</td><td>Localizador</td></tr>
+  <tr><td>IBGE (conjunto aberto kelvins/municipios-brasileiros)</td><td>Coordenadas das sedes dos 645 municípios de SP</td><td>Distância estimada e mapa</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+<p>O recorte compreende casos de câncer de mama (CID-10 C50) em mulheres, com residência ou tratamento no Estado de São Paulo e diagnóstico entre janeiro de 2022 e abril de 2026. Dos 46.181 registros brutos, 765 foram descartados por apresentarem data de tratamento anterior à de diagnóstico, restando 45.416 casos válidos (98,34%). Pacientes residentes em outros estados (1.778) foram mantidos em um grupo sentinela “Fora do Estado de SP” (DRS-00).</p>
+<p>O processo de ETL, em Python, aplica minimização: a base utilizada pela plataforma mantém apenas ano e mês do diagnóstico, município de residência, município e estabelecimento de tratamento, tipo do primeiro tratamento e dias de espera, descartando o código do caso, a data de nascimento e as datas exatas. O município de cada caso é associado ao DRS pela malha oficial dos 645 municípios.</p>
+
+<h2>3.3 Indicadores e regras <span class="marca">§sec-3-3§</span></h2>
+<p class="legenda">Tabela 2 – Indicadores e regras de classificação</p>
+<table>
+  <tr><th style="width:32%">Indicador / regra</th><th>Definição</th></tr>
+  <tr><td>Dias até o tratamento</td><td>Data de início do primeiro tratamento − data do diagnóstico</td></tr>
+  <tr><td>% acima de 60 dias</td><td>Casos com mais de 60 dias ÷ total de casos × 100</td></tr>
+  <tr><td>Situação do prazo</td><td>Dentro (0–45 dias) · próximo do limite (46–60) · acima (&gt; 60)</td></tr>
+  <tr><td>Pressão assistencial</td><td>Casos do ano ÷ estabelecimentos CACON/UNACON do mesmo ano, por DRS</td></tr>
+  <tr><td>Variação</td><td>% acima de 60 dias no último ano fechado (2025) − % no ano anterior (2024), em pontos percentuais</td></tr>
+  <tr><td>Alerta CRÍTICO</td><td>≥ 70% acima de 60 dias e variação positiva</td></tr>
+  <tr><td>Alerta ATENÇÃO</td><td>Variação acima de +5 p.p.</td></tr>
+  <tr><td>Alerta OPORTUNIDADE</td><td>&lt; 55% acima de 60 dias e variação ≤ 0</td></tr>
+  <tr><td>Alerta MONITORAR</td><td>Demais casos, com mínimo de 30 casos por ano</td></tr>
+  <tr><td>Proteção estatística</td><td>Grupos com menos de 10 casos têm percentual e mediana suprimidos; rankings exigem 30 casos</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h2>3.4 Modelo de simulação <span class="marca">§sec-3-4§</span></h2>
+<p>O simulador de encaminhamento parte de dados reais do período 2024–2025: o fluxo das residentes do município de origem para cada unidade e a distribuição dos dias de espera em cada unidade. Como não há dado público de ocupação, duas premissas são informadas pelo usuário: a utilização de base das unidades (ρ₀, padrão 70%) e a fração da espera sensível à fila (q, padrão 50%), sendo o restante atribuído ao percurso clínico. Inspirado na fila M/M/1, em que o tempo de espera cresce com ρ/(1 − ρ), o modelo aplica aos dias de espera de cada unidade com carga relativa L o fator:</p>
+<p class="formula">fator = (1 − q) + q · g(ρ₀·L) / g(ρ₀),&nbsp;&nbsp;&nbsp; com g(ρ) = ρ / (1 − ρ) e ρ limitado a 0,97</p>
+<p>Cinco cenários foram implementados: capacidade normal, demanda elevada no município, unidade indisponível, aumento de demanda na região e redistribuição regional. O resultado compara a linha de base do modelo com o cenário simulado e apresenta, junto, os valores reais observados, as premissas, as limitações e os dados que seriam necessários para uma recomendação operacional.</p>
+
+<h2>3.5 Processo de desenvolvimento e validação <span class="marca">§sec-3-5§</span></h2>
+<p>O desenvolvimento partiu da análise da versão anterior do site, preservando identidade visual, indicadores e textos metodológicos, e corrigindo pontos críticos, como uma simulação de ocupação sem base em dados. A validação ocorreu em quatro níveis: (i) recálculo do KPI geral e de 34 indicadores por DRS a partir dos casos, comparados aos valores publicados anteriormente; (ii) testes automatizados de segurança, números e fluxos; (iii) conferência da carga no Oracle com consultas de verificação; e (iv) testes das consultas em linguagem natural com perguntas de gestão.</p>
+
+<!-- ===================== 4 DESENVOLVIMENTO ===================== -->
+<h1>4 Desenvolvimento <span class="marca">§sec-4§</span></h1>
+<h2 style="margin-top:0">4.1 Arquitetura <span class="marca">§sec-4-1§</span></h2>
+<p>A plataforma adota arquitetura em camadas. O navegador acessa, via HTTPS, um serviço FastAPI hospedado no Render, que entrega a aplicação apenas para sessões autenticadas. Os painéis consomem uma base local minimizada no servidor, garantindo respostas rápidas; as consultas em linguagem natural acessam o Oracle Autonomous Database por conexão mTLS, onde o Select AI gera o SQL com o modelo Google Gemini sobre views agregadas.</p>
+<figure>
+<figcaption>Figura 1 – Arquitetura da plataforma Prazo60</figcaption>
+<svg viewBox="0 0 640 300" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arquitetura">
+  <defs><marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8E1446"/></marker></defs>
+  <rect x="10" y="110" width="120" height="80" rx="6" fill="#FBF1F5" stroke="#C2185B"/>
+  <text x="70" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#231E22">Navegador</text>
+  <text x="70" y="158" text-anchor="middle" font-size="9.5" fill="#4A4148">HTML · CSS · JS</text>
+  <text x="70" y="172" text-anchor="middle" font-size="9.5" fill="#4A4148">Chart.js · SVG</text>
+  <rect x="180" y="60" width="200" height="180" rx="6" fill="#FFFFFF" stroke="#C2185B" stroke-width="1.5"/>
+  <text x="280" y="84" text-anchor="middle" font-size="12" font-weight="bold" fill="#8E1446">Render · FastAPI</text>
+  <text x="194" y="108" font-size="9.5" fill="#231E22">• Login PBKDF2 · sessão · CSP</text>
+  <text x="194" y="126" font-size="9.5" fill="#231E22">• /api/painel · localizador</text>
+  <text x="194" y="144" font-size="9.5" fill="#231E22">• /api/simulacao</text>
+  <text x="194" y="162" font-size="9.5" fill="#231E22">• /api/ia/perguntar</text>
+  <rect x="194" y="178" width="172" height="46" rx="4" fill="#F4EEF1" stroke="#CFC3C9"/>
+  <text x="280" y="197" text-anchor="middle" font-size="9.5" fill="#231E22">Base minimizada</text>
+  <text x="280" y="212" text-anchor="middle" font-size="9" fill="#4A4148">45.416 casos agregáveis</text>
+  <rect x="430" y="40" width="200" height="120" rx="6" fill="#FFFFFF" stroke="#3F63A8" stroke-width="1.5"/>
+  <text x="530" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#3F63A8">Oracle Autonomous DB</text>
+  <text x="444" y="86" font-size="9.5" fill="#231E22">• Prazo60DB · São Paulo</text>
+  <text x="444" y="104" font-size="9.5" fill="#231E22">• PRAZO60_APP (leitura)</text>
+  <text x="444" y="122" font-size="9.5" fill="#231E22">• 8 views VW_P60_*</text>
+  <text x="444" y="140" font-size="9.5" fill="#231E22">• Select AI (DBMS_CLOUD_AI)</text>
+  <rect x="430" y="200" width="200" height="50" rx="6" fill="#F1F5FB" stroke="#3F63A8"/>
+  <text x="530" y="222" text-anchor="middle" font-size="11" font-weight="bold" fill="#231E22">Google Gemini</text>
+  <text x="530" y="238" text-anchor="middle" font-size="9" fill="#4A4148">gera o SQL a partir da pergunta</text>
+  <rect x="10" y="230" width="120" height="50" rx="6" fill="#FFF7E6" stroke="#B86E00"/>
+  <text x="70" y="252" text-anchor="middle" font-size="11" font-weight="bold" fill="#231E22">Power BI</text>
+  <text x="70" y="267" text-anchor="middle" font-size="9" fill="#4A4148">relatório incorporado</text>
+  <line x1="130" y1="150" x2="178" y2="150" stroke="#8E1446" stroke-width="1.5" marker-end="url(#seta)"/>
+  <text x="154" y="143" text-anchor="middle" font-size="8.5" fill="#4A4148">HTTPS</text>
+  <line x1="380" y1="120" x2="428" y2="105" stroke="#8E1446" stroke-width="1.5" marker-end="url(#seta)"/>
+  <text x="404" y="102" text-anchor="middle" font-size="8.5" fill="#4A4148">mTLS</text>
+  <line x1="530" y1="160" x2="530" y2="198" stroke="#3F63A8" stroke-width="1.5" marker-end="url(#seta)"/>
+  <line x1="70" y1="190" x2="70" y2="228" stroke="#B86E00" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#seta)"/>
+  <text x="18" y="24" font-size="10" fill="#4A4148">Fontes: Painel-Oncologia · CNES · CIB-SP · IBGE → ETL Python (minimização e validação) → base do servidor e carga Oracle</text>
+</svg>
+</figure>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h2>4.2 Banco de dados Oracle <span class="marca">§sec-4-2§</span></h2>
+<p>O banco Prazo60DB (Oracle Autonomous AI Database 26ai, Always Free, região São Paulo) recebeu a carga completa por scripts SQL executados em ordem: verificação de pré-requisitos, staging com 45.416 linhas, dimensões de 646 municípios e 247 unidades, inserção de casos e tratamentos e conferência final. Durante a carga foram identificadas e corrigidas duas inconsistências herdadas da etapa anterior do projeto: os códigos de status de prazo estavam cadastrados como cores (Verde, Amarelo, Laranja, Vermelho, Vencido), e o município de São José do Rio Preto estava registrado com o código IBGE de São José dos Campos, o que duplicaria 882 casos na junção e classificaria 644 residentes de Rio Preto como fora do estado.</p>
+<p>Para as consultas em linguagem natural foi criada uma camada analítica com oito views agregadas, com nomes e comentários em português. O usuário da aplicação enxerga somente essas views; o acesso às tabelas de nível caso foi revogado.</p>
+<p class="legenda">Tabela 3 – Views da camada analítica</p>
+<table>
+  <tr><th>View</th><th>Grão</th><th>Uso principal</th></tr>
+  <tr><td><code>VW_P60_RESUMO_ANO</code></td><td>Ano</td><td>Totais e ano parcial</td></tr>
+  <tr><td><code>VW_P60_RESUMO_MES</code></td><td>Ano e mês</td><td>Tendência dos últimos meses</td></tr>
+  <tr><td><code>VW_P60_DRS_ANO</code></td><td>DRS e ano</td><td>Evolução regional</td></tr>
+  <tr><td><code>VW_P60_DRS</code></td><td>DRS</td><td>Variação 2024–2025, oferta 2025 e pressão assistencial</td></tr>
+  <tr><td><code>VW_P60_MUNICIPIO</code></td><td>Município (≥ 30 casos)</td><td>Rankings municipais</td></tr>
+  <tr><td><code>VW_P60_UNIDADE</code></td><td>Unidade (≥ 30 casos)</td><td>Rankings de estabelecimentos</td></tr>
+  <tr><td><code>VW_P60_TIPO_TRATAMENTO</code></td><td>Tipo</td><td>Comparação entre tratamentos</td></tr>
+  <tr><td><code>VW_P60_FAIXA_DIAS</code></td><td>Faixa de dias</td><td>Distribuição</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h2>4.3 Servidor, API e interface <span class="marca">§sec-4-3§</span></h2>
+<p>O servidor, em Python com FastAPI, concentra autenticação, cálculo de agregados, localizador, simulação e integração com o Select AI. A API expõe rotas para painel, opções de filtros, referências cartográficas, localizador, contexto e execução da simulação e perguntas à IA, todas protegidas por sessão. A interface, em HTML, CSS e JavaScript modular, é organizada em doze páginas agrupadas pelas perguntas “Entender”, “Localizar”, “Agir” e “Aprofundar”, com filtros globais (ano, mês, DRS, município, estabelecimento, tipo de tratamento, situação do prazo e dimensão de residência ou tratamento), selos que identificam dado real, estimativa, simulação e premissa, central de indicadores com fórmulas e um modo apresentação em doze etapas.</p>
+<p class="legenda">Tabela 4 – Páginas da plataforma</p>
+<table>
+  <tr><th>Página</th><th>Pergunta respondida</th></tr>
+  <tr><td>Início · Visão Executiva · Panorama dos 60 Dias</td><td>O que está acontecendo e como evolui?</td></tr>
+  <tr><td>Demanda &amp; Oferta · Mapa de Atendimento · Onde estão os gargalos?</td><td>Onde está acontecendo e quais fatores se relacionam?</td></tr>
+  <tr><td>Para onde encaminhar? · Simulação</td><td>Quais alternativas existem e qual o impacto estimado?</td></tr>
+  <tr><td>Power BI · Inteligência Artificial · Dados &amp; Metodologia · Sobre</td><td>Como aprofundar, auditar e compreender o método?</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h2>4.4 Prazo60 AI <span class="marca">§sec-4-4§</span></h2>
+<p>A primeira versão do Select AI usava o OCI Generative AI. Durante a integração com a base completa, todas as chamadas passaram a ser recusadas com HTTP 429; a consulta à lista de modelos, feita pelo próprio banco, mostrou modelos aposentados e recusa por limite em todos os modelos ativos, indicando falta de cota na conta. O provedor foi então substituído pelo Google Gemini, também suportado pelo Select AI. Diante de instabilidade do modelo <code>gemini-flash-latest</code>, adotou-se o <code>gemini-flash-lite-latest</code>, com respostas em cerca de dois segundos.</p>
+<p>No fluxo final, o servidor envia ao Select AI um contexto que orienta qual view usar para cada tipo de pergunta, recebe o SQL gerado, extrai uma única consulta de leitura, executa-a com o usuário somente leitura e devolve à tela as colunas, as linhas e o SQL. Se o modelo não retornar SQL ou se a consulta falhar, o servidor solicita nova geração informando o motivo; se ainda assim não houver resposta, a interface sugere perguntas que a base responde.</p>
+
+<h2>4.5 Segurança e publicação <span class="marca">§sec-4-5§</span></h2>
+<p>A autenticação usa usuário único com senha armazenada apenas como hash PBKDF2-SHA256 com 600.000 iterações, alinhado às recomendações da OWASP (2026), sessão assinada em cookie HttpOnly com validade de oito horas, bloqueio após cinco tentativas erradas e proteção contra CSRF. O servidor aplica política de segurança de conteúdo, HSTS, bloqueio de enquadramento e não indexação. Senhas do banco, wallet e chave do modelo ficam apenas em variáveis de ambiente, arquivos secretos do Render ou credenciais do próprio banco. O código está versionado no repositório GitHub unificado do projeto, sem nenhum arquivo com dados individuais de pacientes, e é publicado automaticamente no Render a cada atualização da branch principal, por meio de um Blueprint.</p>
+
+<h2>4.6 Arquitetura de referência e pipeline das Sprints 3 e 4 <span class="marca">§sec-4-6§</span></h2>
+<p>Nas Sprints 3 e 4 o grupo definiu uma arquitetura de referência no padrão Lambda: fontes (DATASUS, SIH/SUS, RHC e TabNet), ingestão, camada batch para os dados históricos e camada de streaming prevista para novos dados, seguidas de transformação, validação, armazenamento analítico no Oracle Database 26ai e consumo no painel inteligente. Na entrega atual, o fluxo batch está implementado; a camada de streaming permanece como evolução.</p>
+<figure><figcaption>Figura 1 – Arquitetura de referência Lambda do Prazo60</figcaption><img src="../05_Evidencias/power_bi_e_sprint4/sprint4_arquitetura_lambda.png" alt="" style="width:50%; margin:0 auto;"></figure>
+<p class="fonte">Fonte: relatório técnico da Sprint 4 (2026).</p>
+<p>O extrato bruto do Painel-Oncologia é obtido no servidor FTP público do DATASUS, no caminho <code>ftp.datasus.gov.br › dissemin › publicos › painel_oncologia › Dados</code>, onde ficam os arquivos anuais <code>POBR*.dbc</code>. Filtrado para câncer de mama (C50), sexo feminino e Estado de São Paulo, resulta em 46.181 registros com variáveis como <code>TEMPO_TRAT</code>, <code>MUN_RESID</code>, <code>MUN_TRATAM</code>, <code>TRATAMENTO</code>, <code>ESTADIAM</code>, <code>IDADE</code>, <code>DT_DIAG</code> e <code>DT_TRAT</code>.</p>
+<figure><figcaption>Figura 1 – Arquivos POBR do Painel-Oncologia no FTP público do DATASUS</figcaption><img src="../05_Evidencias/power_bi_e_sprint4/sprint4_datasus_ftp_arquivos_pobr.png" alt=""></figure>
+<p class="fonte">Fonte: relatório técnico da Sprint 4 (2026).</p>
+<p>O tratamento é feito pelo script <code>pipeline_datasus.py</code>, em Python com Pandas. A equipe preferiu o Python ao Power Query por desempenho com grandes volumes, por permitir reutilizar a mesma regra de negócio no Power BI, no banco relacional e em modelos futuros, e por portabilidade entre máquinas. O script executa seis etapas:</p>
+<ol>
+  <li>leitura do CSV do DATASUS, com separador “;”;</li>
+  <li>regra dos 60 dias: <code>DS_CUMPRE_LEI_60_DIAS</code> recebe “Sim” quando <code>TEMPO_TRAT</code> ≤ 60 e “Não” nos demais casos;</li>
+  <li>deslocamento: “Sim” quando o município de residência difere do município de tratamento;</li>
+  <li>decodificação do tratamento (1 Cirurgia, 2 Quimioterapia, 3 Radioterapia, 4 Outros);</li>
+  <li>decodificação do estadiamento (Estágios 0 a IV e “Não se aplica”);</li>
+  <li>classificação em faixas etárias (&lt; 40, 40 a 49, 50 a 69 e 70 anos ou mais) e exportação da base tratada.</li>
+</ol>
+<p>Segundo o relatório da Sprint 4, a execução do pipeline foi automatizada com Apache Airflow e validada sem falhas. No modelo relacional da Sprint 3, as entidades região de saúde, município, unidade de saúde, caso e tratamento são consolidadas pela view <code>VW_FILA_PRAZO</code>, que calcula dinamicamente os dias de espera de cada caso frente à lei e já prevê a classificação de casos sem tratamento iniciado (fila viva). A plataforma web partiu desse modelo, ampliou a carga para a base completa e acrescentou a camada analítica <code>VW_P60_*</code> usada pelo Select AI.</p>
+
+<h2>4.7 Painel Power BI <span class="marca">§sec-4-7§</span></h2>
+<p>O “Painel Câncer de Mama SP”, publicado no Power BI Service e incorporado à página Power BI da plataforma, consome a base tratada pelo pipeline e organiza os indicadores em três abas. A aba de perfil epidemiológico oferece filtros de ano, faixa etária, tipo de tratamento e estadiamento.</p>
+<ul>
+  <li><b>Visão Executiva &amp; Tempo de Espera:</b> total de pacientes, quantidade e percentual dentro do prazo, tempo médio, cumprimento da lei e tempo médio por estadiamento e tratamentos mais frequentes;</li>
+  <li><b>Pressão Regional &amp; Fluxo Migratório:</b> mapa da demanda, dez municípios que mais geram demanda, dez maiores polos de atendimento, matriz de município de residência por município de tratamento e taxa de deslocamento;</li>
+  <li><b>Perfil Epidemiológico &amp; Tendências:</b> evolução do tempo médio e do volume de diagnósticos por ano, faixa etária predominante, idade média e distribuição dos casos por grupo de idade e estadiamento.</li>
+</ul>
+<p class="sem-recuo" style="text-align:left;">Acesso: <a href="https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi">https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi</a></p>
+<figure><figcaption>Figura 1 – Power BI: Visão Executiva &amp; Tempo de Espera</figcaption><img src="../05_Evidencias/power_bi_e_sprint4/pbi_01_visao_executiva_tempo_espera.png" alt=""></figure>
+<p class="fonte">Fonte: painel Power BI do grupo Dataholics, dados atualizados em 12/09/2026.</p>
+<figure><figcaption>Figura 1 – Power BI: Pressão Regional &amp; Fluxo Migratório</figcaption><img src="../05_Evidencias/power_bi_e_sprint4/pbi_02_pressao_regional_fluxo.png" alt=""></figure>
+<p class="fonte">Fonte: painel Power BI do grupo Dataholics, dados atualizados em 12/09/2026.</p>
+<figure><figcaption>Figura 1 – Power BI: Perfil Epidemiológico &amp; Tendências</figcaption><img src="../05_Evidencias/power_bi_e_sprint4/pbi_03_perfil_epidemiologico_tendencias.png" alt=""></figure>
+<p class="fonte">Fonte: painel Power BI do grupo Dataholics, dados atualizados em 12/09/2026.</p>
+
+<!-- ===================== 5 RESULTADOS ===================== -->
+<h1>5 Resultados <span class="marca">§sec-5§</span></h1>
+<h2 style="margin-top:0">5.1 Cumprimento do prazo legal <span class="marca">§sec-5-1§</span></h2>
+<div class="kpis">
+  <div class="kpi"><b>45.416</b><span>casos analisados (2022–abr/2026)</span></div>
+  <div class="kpi"><b>61,3%</b><span>iniciaram o tratamento após 60 dias (27.830 casos)</span></div>
+  <div class="kpi"><b>79 dias</b><span>mediana até o primeiro tratamento (média 112,1)</span></div>
+  <div class="kpi"><b>31,5%</b><span>esperaram mais de 120 dias</span></div>
+</div>
+<p>Apenas 38,7% das pacientes iniciaram o tratamento dentro do prazo legal. A distribuição por faixas mostra concentração expressiva nas esperas mais longas: quase um terço dos casos ultrapassou 120 dias. Na comparação entre os dois últimos anos fechados, o percentual acima de 60 dias caiu de 61,9% (2024) para 59,1% (2025), e a mediana de 81 para 74 dias. A queda deve ser lida com cautela, pois anos recentes ainda recebem registros e a base contém apenas casos com tratamento iniciado.</p>
+<p class="legenda">Tabela 5 – Distribuição dos casos por faixa de dias até o tratamento</p>
+<table>
+  <tr><th>Faixa</th><th class="n">Casos</th><th class="n">%</th><th>Situação</th></tr>
+  <tr><td>0–30 dias</td><td class="n">8.387</td><td class="n">18,5</td><td>Dentro do prazo</td></tr>
+  <tr><td>31–45 dias</td><td class="n">4.552</td><td class="n">10,0</td><td>Dentro do prazo</td></tr>
+  <tr><td>46–60 dias</td><td class="n">4.647</td><td class="n">10,2</td><td>Próximo do limite</td></tr>
+  <tr><td>61–90 dias</td><td class="n">7.834</td><td class="n">17,2</td><td>Acima do prazo</td></tr>
+  <tr><td>91–120 dias</td><td class="n">5.682</td><td class="n">12,5</td><td>Acima do prazo</td></tr>
+  <tr><td>121 dias ou mais</td><td class="n">14.314</td><td class="n">31,5</td><td>Acima do prazo</td></tr>
+</table>
+<p class="fonte">Fonte: Painel-Oncologia (INCA/DATASUS); elaborado pelos autores (2026).</p>
+<p class="legenda">Tabela 6 – Tempo até o tratamento por tipo do primeiro tratamento</p>
+<table>
+  <tr><th>Tipo</th><th class="n">Casos</th><th class="n">% acima de 60 dias</th><th class="n">Mediana (dias)</th></tr>
+  <tr><td>Cirurgia</td><td class="n">4.960</td><td class="n">42,8</td><td class="n">35</td></tr>
+  <tr><td>Quimioterapia</td><td class="n">36.886</td><td class="n">61,5</td><td class="n">78</td></tr>
+  <tr><td>Quimioterapia + Radioterapia</td><td class="n">109</td><td class="n">72,5</td><td class="n">124</td></tr>
+  <tr><td>Radioterapia</td><td class="n">3.461</td><td class="n">85,5</td><td class="n">143</td></tr>
+</table>
+<p class="fonte">Fonte: Painel-Oncologia (INCA/DATASUS); elaborado pelos autores (2026).</p>
+
+<h2>5.2 Desigualdades regionais e gargalos <span class="marca">§sec-5-2§</span></h2>
+<p>O desempenho varia fortemente entre as regiões de residência. A Tabela 7 apresenta o acumulado do período e a comparação entre 2024 e 2025, que alimenta a classificação automática de alertas.</p>
+<p class="legenda">Tabela 7 – Indicadores por DRS de residência e classificação de alerta (2025 vs. 2024)</p>
+<table>
+  <tr><th>DRS</th><th class="n">Casos</th><th class="n">% &gt; 60 (acum.)</th><th class="n">% 2024</th><th class="n">% 2025</th><th class="n">Var. p.p.</th><th>Alerta</th></tr>
+  <tr><td>I – Grande São Paulo</td><td class="n">16.568</td><td class="n">60,2</td><td class="n">58,2</td><td class="n">58,2</td><td class="n">0,0</td><td>Monitorar</td></tr>
+  <tr><td>II – Araçatuba</td><td class="n">993</td><td class="n">75,3</td><td class="n">78,1</td><td class="n">73,2</td><td class="n">−4,9</td><td>Monitorar</td></tr>
+  <tr><td>III – Araraquara</td><td class="n">924</td><td class="n">49,9</td><td class="n">44,9</td><td class="n">54,4</td><td class="n">+9,5</td><td>Atenção</td></tr>
+  <tr><td>IV – Baixada Santista</td><td class="n">1.808</td><td class="n">57,6</td><td class="n">61,7</td><td class="n">54,3</td><td class="n">−7,4</td><td>Oportunidade</td></tr>
+  <tr><td>V – Barretos</td><td class="n">857</td><td class="n">76,9</td><td class="n">76,9</td><td class="n">80,9</td><td class="n">+4,0</td><td><b>Crítico</b></td></tr>
+  <tr><td>VI – Bauru</td><td class="n">1.999</td><td class="n">51,3</td><td class="n">50,2</td><td class="n">52,0</td><td class="n">+1,8</td><td>Monitorar</td></tr>
+  <tr><td>VII – Campinas</td><td class="n">4.598</td><td class="n">64,1</td><td class="n">67,0</td><td class="n">59,1</td><td class="n">−7,9</td><td>Monitorar</td></tr>
+  <tr><td>VIII – Franca</td><td class="n">797</td><td class="n">66,8</td><td class="n">69,4</td><td class="n">71,9</td><td class="n">+2,5</td><td><b>Crítico</b></td></tr>
+  <tr><td>IX – Marília</td><td class="n">1.635</td><td class="n">44,6</td><td class="n">47,7</td><td class="n">38,6</td><td class="n">−9,1</td><td>Oportunidade</td></tr>
+  <tr><td>X – Piracicaba</td><td class="n">1.617</td><td class="n">56,5</td><td class="n">60,3</td><td class="n">52,1</td><td class="n">−8,2</td><td>Oportunidade</td></tr>
+  <tr><td>XI – Presidente Prudente</td><td class="n">999</td><td class="n">69,8</td><td class="n">73,3</td><td class="n">66,9</td><td class="n">−6,4</td><td>Monitorar</td></tr>
+  <tr><td>XII – Registro</td><td class="n">367</td><td class="n">64,6</td><td class="n">69,4</td><td class="n">79,8</td><td class="n">+10,4</td><td><b>Crítico</b></td></tr>
+  <tr><td>XIII – Ribeirão Preto</td><td class="n">1.796</td><td class="n">53,5</td><td class="n">55,5</td><td class="n">49,4</td><td class="n">−6,1</td><td>Oportunidade</td></tr>
+  <tr><td>XIV – São João da Boa Vista</td><td class="n">971</td><td class="n">84,3</td><td class="n">81,2</td><td class="n">82,1</td><td class="n">+0,9</td><td><b>Crítico</b></td></tr>
+  <tr><td>XV – São José do Rio Preto</td><td class="n">2.309</td><td class="n">64,7</td><td class="n">65,2</td><td class="n">60,9</td><td class="n">−4,3</td><td>Monitorar</td></tr>
+  <tr><td>XVI – Sorocaba</td><td class="n">2.460</td><td class="n">69,3</td><td class="n">75,3</td><td class="n">68,1</td><td class="n">−7,2</td><td>Monitorar</td></tr>
+  <tr><td>XVII – Taubaté</td><td class="n">2.940</td><td class="n">55,6</td><td class="n">59,2</td><td class="n">46,3</td><td class="n">−12,9</td><td>Oportunidade</td></tr>
+  <tr><td>Fora do Estado de SP</td><td class="n">1.778</td><td class="n">70,8</td><td class="n">–</td><td class="n">–</td><td class="n">–</td><td>–</td></tr>
+</table>
+<p class="fonte">Fonte: Painel-Oncologia (INCA/DATASUS); elaborado pelos autores (2026).</p>
+<p>Quatro regiões foram classificadas como críticas (XIV, V, XII e VIII), uma em atenção (III) e cinco como oportunidade. O motor de apoio à decisão produziu quatro recomendações fundamentadas: <b>atenção</b> ao DRS XIV, com 82,1% acima de 60 dias em 2025; <b>risco</b> no DRS XII, com a maior piora (+10,4 p.p.); <b>oportunidade</b> no DRS IX, com o menor percentual (38,6%) e tendência de melhora; e <b>ação sugerida</b> de avaliar, com a regulação, fluxo complementar entre o DRS XIV e o DRS X – Piracicaba, a região mais próxima com desempenho ao menos 10 p.p. melhor. Entre municípios com pelo menos 30 casos no ano, Mogi Guaçu (91,4%), Americana (83,3%) e Itu (81,4%) destacaram-se como críticos. No total, 4.673 casos (10,3%) iniciaram o tratamento fora da DRS de residência; o maior fluxo foi de pacientes de outros estados para o DRS V – Barretos (1.528 casos).</p>
+
+<h2>5.3 Demanda e oferta <span class="marca">§sec-5-3§</span></h2>
+<p>Em 2025, o Estado registrou 9.010 casos de residentes para 83 estabelecimentos habilitados CACON/UNACON, uma pressão média de 108,6 casos por estabelecimento. A Tabela 8 mostra que as maiores pressões ocorreram em regiões com um único estabelecimento habilitado, que coincidem com regiões de alto percentual acima de 60 dias. Trata-se de correlação observada, que não comprova causalidade nem indica ausência de vaga.</p>
+<p class="legenda">Tabela 8 – Pressão assistencial por DRS em 2025</p>
+<table>
+  <tr><th>DRS</th><th class="n">Casos 2025</th><th class="n">CACON/UNACON</th><th class="n">Casos por estabelecimento</th><th class="n">% &gt; 60 (2025)</th></tr>
+  <tr><td>II – Araçatuba</td><td class="n">220</td><td class="n">1</td><td class="n">220,0</td><td class="n">73,2</td></tr>
+  <tr><td>V – Barretos</td><td class="n">209</td><td class="n">1</td><td class="n">209,0</td><td class="n">80,9</td></tr>
+  <tr><td>VIII – Franca</td><td class="n">192</td><td class="n">1</td><td class="n">192,0</td><td class="n">71,9</td></tr>
+  <tr><td>XIII – Ribeirão Preto</td><td class="n">449</td><td class="n">3</td><td class="n">149,7</td><td class="n">49,4</td></tr>
+  <tr><td>XI – Presidente Prudente</td><td class="n">254</td><td class="n">2</td><td class="n">127,0</td><td class="n">66,9</td></tr>
+  <tr><td>XV – São José do Rio Preto</td><td class="n">481</td><td class="n">4</td><td class="n">120,2</td><td class="n">60,9</td></tr>
+  <tr><td>XVI – Sorocaba</td><td class="n">474</td><td class="n">4</td><td class="n">118,5</td><td class="n">68,1</td></tr>
+  <tr><td>I – Grande São Paulo</td><td class="n">3.139</td><td class="n">27</td><td class="n">116,3</td><td class="n">58,2</td></tr>
+  <tr><td>XIV – São João da Boa Vista</td><td class="n">207</td><td class="n">2</td><td class="n">103,5</td><td class="n">82,1</td></tr>
+  <tr><td>VII – Campinas</td><td class="n">999</td><td class="n">10</td><td class="n">99,9</td><td class="n">59,1</td></tr>
+  <tr><td>VI – Bauru</td><td class="n">394</td><td class="n">4</td><td class="n">98,5</td><td class="n">52,0</td></tr>
+  <tr><td>IV – Baixada Santista</td><td class="n">387</td><td class="n">4</td><td class="n">96,8</td><td class="n">54,3</td></tr>
+  <tr><td>X – Piracicaba</td><td class="n">424</td><td class="n">5</td><td class="n">84,8</td><td class="n">52,1</td></tr>
+  <tr><td>XII – Registro</td><td class="n">84</td><td class="n">1</td><td class="n">84,0</td><td class="n">79,8</td></tr>
+  <tr><td>XVII – Taubaté</td><td class="n">574</td><td class="n">7</td><td class="n">82,0</td><td class="n">46,3</td></tr>
+  <tr><td>III – Araraquara</td><td class="n">158</td><td class="n">2</td><td class="n">79,0</td><td class="n">54,4</td></tr>
+  <tr><td>IX – Marília</td><td class="n">365</td><td class="n">5</td><td class="n">73,0</td><td class="n">38,6</td></tr>
+</table>
+<p class="fonte">Fonte: Painel-Oncologia, casos e indicadores territoriais; elaborado pelos autores (2026).</p>
+
+<h2>5.4 Localizador e simulação <span class="marca">§sec-5-4§</span></h2>
+<p>O caso demonstrativo de São Bernardo do Campo (DRS I) reúne 434 casos de residentes, com 56,5% acima de 60 dias, mediana de 71 dias e 10,6% tratadas fora do município; 88% iniciaram o tratamento em uma única unidade do próprio município. O localizador lista as unidades compatíveis mais próximas, priorizando faixa de distância, habilitação confirmada e informações disponíveis, sempre com o aviso de que a lista indica onde existe serviço e não confirma vaga.</p>
+<p>Na simulação de redistribuição de 30% das residentes atendidas na unidade principal para uma alternativa próxima, com as premissas padrão, a mediana estimada passou de 66 para 64,2 dias (−1,8 dia) e o percentual acima de 60 dias de 54,8% para 52,9% (−1,9 p.p.), com cerca de 15 pacientes por ano mudando de unidade e deslocamento médio estimado de 1,7 para 2,4 km. Os valores reais observados no período (62 dias e 51,6%) são exibidos ao lado para comparação. O simulador também sinaliza quando uma unidade de destino ultrapassaria 95% de utilização estimada, indicando que o gargalo poderia apenas mudar de lugar.</p>
+
+<h2>5.5 Consultas em linguagem natural <span class="marca">§sec-5-5§</span></h2>
+<p class="legenda">Tabela 9 – Perguntas de gestão respondidas pelo Prazo60 AI sobre a base completa</p>
+<table>
+  <tr><th style="width:42%">Pergunta</th><th>Resposta obtida (SQL gerado e executado no Oracle)</th></tr>
+  <tr><td>Quantos casos ultrapassaram o prazo de 60 dias?</td><td>27.830</td></tr>
+  <tr><td>Qual região apresentou pior evolução?</td><td>DRS XII – Registro, +10,4 p.p.</td></tr>
+  <tr><td>Como a situação mudou nos últimos meses?</td><td>2025: de 57,1% (julho) para 53,8% (dezembro) acima de 60 dias</td></tr>
+  <tr><td>Onde existe maior pressão entre demanda e oferta?</td><td>DRS II Araçatuba (220), DRS V Barretos (209), DRS VIII Franca (192)</td></tr>
+  <tr><td>Quais municípios possuem maior percentual acima de 60 dias?</td><td>Mococa 93,5% (77 casos), Casa Branca 90,0%, Mogi Mirim 89,6%</td></tr>
+  <tr><td>Quais regiões têm o maior percentual acima de 60 dias?</td><td>DRS XIV 84,3%, DRS V 76,9%, DRS II 75,3%</td></tr>
+  <tr><td>Quais unidades estão próximas de municípios críticos?</td><td>Unidades localizadas na mesma DRS dos municípios com maior percentual</td></tr>
+</table>
+<p class="fonte">Fonte: testes executados em 13/09/2026; elaborado pelos autores (2026).</p>
+<p>Todas as respostas coincidiram com os indicadores calculados pela plataforma. A camada analítica foi decisiva: antes dela, perguntas sobre evolução, meses recentes e demanda × oferta falhavam, e rankings municipais exibiam municípios com um único caso a 100%.</p>
+
+<h2>5.6 Validação e testes <span class="marca">§sec-5-6§</span></h2>
+<p class="legenda">Tabela 10 – Síntese da validação</p>
+<table>
+  <tr><th>Verificação</th><th>Resultado</th></tr>
+  <tr><td>Recálculo do KPI geral e de 34 indicadores por DRS (residência e tratamento)</td><td>0 divergências</td></tr>
+  <tr><td>Testes automatizados (autenticação, proteção, números, localizador, simulação, integrações)</td><td>35 aprovados</td></tr>
+  <tr><td>Carga Oracle: totais, IBGE repetido, casos sem tratamento, indicador geral, 18 grupos por DRS</td><td>Todos conferidos com o site</td></tr>
+  <tr><td>Views analíticas: casos e casos acima de 60 dias</td><td>45.416 e 27.830</td></tr>
+  <tr><td>Consultas em linguagem natural (perguntas de gestão)</td><td>100% respondidas, em 1,2 a 3,9 s</td></tr>
+  <tr><td>Produção: <code>/api/saude</code> e página de login</td><td>HTTP 200, 45.416 casos carregados, CSP ativo</td></tr>
+  <tr><td>Precisão do mapa (sedes dentro do polígono da própria DRS)</td><td>91,6%</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h2>5.7 Plataforma em funcionamento <span class="marca">§sec-5-7§</span></h2>
+<p>As figuras a seguir registram a plataforma em execução com os dados reais. A tela de acesso foi capturada no endereço de produção; as demais telas foram capturadas em execução local da mesma versão do código, conectada ao mesmo banco Oracle.</p>
+
+<figure><figcaption>Figura 2 – Tela de acesso em produção (https://prazo60.onrender.com)</figcaption><img src="../05_Evidencias/capturas/00_producao_login.png" alt=""></figure>
+<figure><figcaption>Figura 3 – Página inicial com a evidência central</figcaption><img src="../05_Evidencias/capturas/02_inicio.png" alt=""></figure>
+<figure><figcaption>Figura 4 – Visão Executiva: indicadores, tendência e distância até a meta</figcaption><img src="../05_Evidencias/capturas/03_visao_executiva.png" alt=""></figure>
+<figure><figcaption>Figura 5 – Recomendações do motor de apoio à decisão</figcaption><img src="../05_Evidencias/capturas/03b_recomendacoes.png" alt=""></figure>
+<figure><figcaption>Figura 6 – Panorama dos 60 dias: régua, situação e faixas</figcaption><img src="../05_Evidencias/capturas/04_panorama_60_dias.png" alt=""></figure>
+<figure><figcaption>Figura 7 – Demanda &amp; Oferta: pressão assistencial e volumes</figcaption><img src="../05_Evidencias/capturas/05_demanda_oferta.png" alt=""></figure>
+<figure><figcaption>Figura 8 – Fluxos de pacientes entre regiões de residência e de tratamento</figcaption><img src="../05_Evidencias/capturas/05b_fluxos_entre_regioes.png" alt=""></figure>
+<figure><figcaption>Figura 9 – Mapa de Atendimento com o DRS XIV selecionado</figcaption><img src="../05_Evidencias/capturas/06b_mapa_drs_xiv.png" alt=""></figure>
+<figure><figcaption>Figura 10 – Onde estão os gargalos: alertas e municípios críticos</figcaption><img src="../05_Evidencias/capturas/07_gargalos.png" alt=""></figure>
+<figure><figcaption>Figura 11 – Fatores relacionados por região</figcaption><img src="../05_Evidencias/capturas/07b_fatores_relacionados.png" alt=""></figure>
+<figure><figcaption>Figura 12 – Para onde encaminhar: exemplo de São Bernardo do Campo</figcaption><img src="../05_Evidencias/capturas/08_para_onde_encaminhar.png" alt=""></figure>
+<figure><figcaption>Figura 13 – Unidades compatíveis com distância estimada</figcaption><img src="../05_Evidencias/capturas/08b_unidades_compativeis.png" alt=""></figure>
+<figure><figcaption>Figura 14 – Simulador: escolha de cenário e premissas</figcaption><img src="../05_Evidencias/capturas/09b_simulacao_etapa2.png" alt=""></figure>
+<figure><figcaption>Figura 15 – Simulador: cenário atual, simulado e impacto estimado</figcaption><img src="../05_Evidencias/capturas/09c_simulacao_resultado.png" alt=""></figure>
+<figure><figcaption>Figura 16 – Prazo60 AI: pergunta, resultado do banco e SQL gerado</figcaption><img src="../05_Evidencias/capturas/11_prazo60_ai.png" alt=""></figure>
+<figure><figcaption>Figura 17 – Prazo60 AI: ranking municipal com SQL auditável</figcaption><img src="../05_Evidencias/capturas/11b_prazo60_ai_ranking.png" alt=""></figure>
+<figure><figcaption>Figura 18 – Dados &amp; Metodologia: pipeline e arquitetura tecnológica</figcaption><img src="../05_Evidencias/capturas/12b_pipeline_arquitetura.png" alt=""></figure>
+<figure><figcaption>Figura 19 – Dados &amp; Metodologia: qualidade dos dados</figcaption><img src="../05_Evidencias/capturas/12c_qualidade_dados.png" alt=""></figure>
+<figure class="estreita"><figcaption>Figura 20 – Versão para celular da Visão Executiva</figcaption><img src="../05_Evidencias/capturas/14_celular_visao_executiva.png" alt=""></figure>
+<p class="fonte">Fonte: capturas de tela da plataforma Prazo60 em 13/09/2026.</p>
+
+<h2>5.8 Painel Power BI e conciliação com a plataforma <span class="marca">§sec-5-8§</span></h2>
+<p>O painel Power BI considera os 46.181 registros do extrato. Nele, 18.351 casos (39,74%) aparecem dentro do prazo e 27.830 (60,26%) acima, com tempo médio de 109,94 dias, e 51,32% das pacientes trataram em município diferente do de residência. A faixa etária predominante é a de 50 a 69 anos (23.577 casos; 51,1%), seguida de 40 a 49 anos (9.810; 21,2%), 70 anos ou mais (8.770; 19,0%) e menos de 40 anos (4.024; 8,7%), com idade média de 57 anos.</p>
+<p>A diferença em relação à plataforma web decorre de 765 registros com data de tratamento anterior à de diagnóstico (tempo entre −89 e −1 dia), todos com cirurgia como primeiro tratamento e estadiamento “não se aplica”. Como o tempo é menor que 60, o pipeline os classifica como dentro do prazo; a plataforma os exclui por inconsistência. Retirados esses registros, os números dos dois produtos coincidem.</p>
+<p class="legenda">Tabela 1 – Conciliação entre o painel Power BI e a plataforma web</p>
+<table>
+  <tr><th style="width:20%">Indicador</th><th class="n">Power BI</th><th class="n">Plataforma web</th><th>Motivo da diferença</th></tr>
+  <tr><td>Casos</td><td class="n">46.181</td><td class="n">45.416</td><td>765 registros com tempo negativo excluídos na plataforma</td></tr>
+  <tr><td>Dentro do prazo</td><td class="n">18.351 (39,74%)</td><td class="n">17.586 (38,7%)</td><td>Os 765 registros contam como dentro do prazo no Power BI</td></tr>
+  <tr><td>Acima de 60 dias</td><td class="n">27.830 (60,26%)</td><td class="n">27.830 (61,3%)</td><td>Mesma contagem; muda apenas o denominador</td></tr>
+  <tr><td>Tempo médio</td><td class="n">109,94 dias</td><td class="n">112,1 dias</td><td>Os tempos negativos reduzem a média</td></tr>
+  <tr><td>Cirurgias</td><td class="n">5.725</td><td class="n">4.960</td><td>Os 765 registros são todos cirurgias</td></tr>
+  <tr><td>Casos em 2024 / 2025</td><td class="n">12.280 / 9.554</td><td class="n">12.058 / 9.440</td><td>222 e 114 registros com tempo negativo nesses anos</td></tr>
+  <tr><td>Deslocamento</td><td class="n">51,32%</td><td class="n">10,3%</td><td>Recortes diferentes: município de tratamento diferente do de residência (Power BI) e DRS diferente da de residência (plataforma)</td></tr>
+</table>
+<p class="fonte">Fonte: extrato tratado pelo pipeline (Sprint 3) e base da plataforma; conferência dos autores (2026).</p>
+<p>O estadiamento, disponível no extrato usado pelo Power BI, mostra que o atraso ocorre em todos os estágios. Considerando apenas os registros válidos, o percentual acima de 60 dias é maior nos Estágios I e II (75,3% e 70,8%) do que nos Estágios III e IV (53,0% e 60,4%).</p>
+<p class="legenda">Tabela 1 – Tempo até o tratamento por estadiamento</p>
+<table>
+  <tr><th>Estadiamento</th><th class="n">Casos</th><th class="n">% acima de 60 dias (válidos)</th><th class="n">Mediana (dias)</th><th class="n">Tempo médio no Power BI (dias)</th></tr>
+  <tr><td>Estágio 0</td><td class="n">1.668</td><td class="n">68,2</td><td class="n">90,5</td><td class="n">121,0</td></tr>
+  <tr><td>Estágio I</td><td class="n">7.160</td><td class="n">75,3</td><td class="n">109</td><td class="n">140,7</td></tr>
+  <tr><td>Estágio II</td><td class="n">9.810</td><td class="n">70,8</td><td class="n">98</td><td class="n">135,3</td></tr>
+  <tr><td>Estágio III</td><td class="n">12.805</td><td class="n">53,0</td><td class="n">64</td><td class="n">92,8</td></tr>
+  <tr><td>Estágio IV</td><td class="n">9.013</td><td class="n">60,4</td><td class="n">77</td><td class="n">114,0</td></tr>
+  <tr><td>Não se aplica (cirurgias)</td><td class="n">5.725 (4.960 válidos)</td><td class="n">42,8</td><td class="n">35</td><td class="n">56,7</td></tr>
+</table>
+<p class="fonte">Fonte: extrato tratado pelo pipeline (Sprint 3); elaborado pelos autores (2026).</p>
+
+<!-- ===================== 6 DISCUSSAO ===================== -->
+<h1>6 Discussão e limitações <span class="marca">§sec-6§</span></h1>
+<p>Os resultados confirmam que o descumprimento do prazo legal é a regra, e não a exceção, para o câncer de mama no SUS-SP no período analisado, e que ele se distribui de forma desigual entre regiões e tipos de tratamento. O atraso particularmente elevado quando o primeiro tratamento é a radioterapia sugere gargalos específicos de capacidade, e a coincidência entre alta pressão assistencial e alto percentual acima de 60 dias em regiões com um único estabelecimento habilitado indica pontos prioritários para investigação. A plataforma transforma esses achados em perguntas acionáveis e alternativas a serem avaliadas com a regulação, sem substituí-la.</p>
+<p class="sem-recuo">As principais limitações são:</p>
+<ol>
+  <li><b>Casos fechados:</b> a base contém apenas pacientes que já iniciaram o tratamento; esperas longas em curso não aparecem, o que tende a subestimar o atraso nos períodos mais recentes;</li>
+  <li><b>Defasagem:</b> 2026 é ano parcial e anos recentes ainda recebem registros;</li>
+  <li><b>Sem ocupação em tempo real:</b> a localização de uma unidade não significa existência de vaga;</li>
+  <li><b>Simulação hipotética:</b> depende de premissas não observadas (utilização e fração de fila);</li>
+  <li><b>Oferta sem denominador populacional</b> e distância em linha reta entre sedes municipais;</li>
+  <li><b>Correlação não é causalidade</b> nos cruzamentos entre demanda, oferta e prazo;</li>
+  <li><b>Identificação das unidades:</b> apenas 20 de 114 estabelecimentos tratantes têm nome e habilitação confirmados;</li>
+  <li><b>Modelo de linguagem:</b> pode interpretar perguntas de forma diferente e depende de serviço externo com limites de uso; por isso o SQL é sempre exibido;</li>
+  <li><b>Infraestrutura gratuita:</b> hibernação do serviço web e pausa do banco após períodos sem uso;</li>
+  <li><b>Fila viva:</b> a classificação de casos ainda sem tratamento está prevista na <code>VW_FILA_PRAZO</code>, mas não há dados de teste carregados que a demonstrem;</li>
+  <li><b>Abrangência:</b> o extrato se restringe ao Estado de São Paulo e ao câncer de mama;</li>
+  <li><b>Governança OES:</b> a camada de ética e governança proposta na Sprint 3 ainda é conceitual e não está integrada ao pipeline;</li>
+  <li><b>Alertas:</b> não há notificação automática quando um caso se aproxima do prazo; a visualização depende de o gestor abrir o painel;</li>
+  <li><b>Regra do pipeline:</b> registros com tempo negativo são contados como dentro do prazo no Power BI, o que eleva o percentual dentro do prazo de 38,7% para 39,74%.</li>
+</ol>
+
+<!-- ===================== 7 CONCLUSAO ===================== -->
+<h1>7 Conclusão <span class="marca">§sec-7§</span></h1>
+<p>O Prazo60 atingiu o objetivo de desenvolver e publicar uma plataforma de inteligência em saúde pública capaz de responder se as pacientes com câncer de mama no SUS-SP iniciam o tratamento em até 60 dias, onde o problema acontece e quais alternativas podem ser avaliadas. A solução integrou e validou dados públicos de 45.416 casos, evidenciou que 61,3% das pacientes iniciaram o tratamento após o prazo legal, localizou regiões e municípios críticos, relacionou o desempenho à oferta habilitada, ofereceu localizador e simulação com premissas explícitas e permitiu consultas em linguagem natural auditáveis sobre a base completa.</p>
+<p>Além dos resultados analíticos, o trabalho demonstra um conjunto de práticas relevantes para produtos de dados em saúde: minimização e agregação com supressão de grupos pequenos, separação explícita entre dado real, estimativa e simulação, validação sistemática dos números, segurança desde a concepção e transparência sobre limitações. Como trabalhos futuros, destacam-se a integração com a API do CNES para identificação completa das unidades, a leitura dos painéis diretamente do banco Oracle, o uso de denominadores populacionais, a integração com sistemas de regulação para disponibilidade real de vagas e o acompanhamento de casos em aberto com pseudonimização e controle de acesso por perfil. Somam-se a eles os próximos passos definidos na Sprint 4: carregar casos de teste da fila viva, implementar a camada de streaming, prototipar as regras de governança OES sobre as consultas do Select AI, criar alertas automáticos para casos próximos do vencimento e corrigir no pipeline o tratamento dos registros com tempo negativo.</p>
+<div class="destaque"><p>“Nós não usamos dados apenas para mostrar o problema. Usamos dados para entender o problema e apoiar a construção da solução.” — Grupo Dataholics</p></div>
+
+<!-- ===================== REFERENCIAS ===================== -->
+<h1>Referências <span class="marca">§sec-ref§</span></h1>
+<div class="ref">
+<p>BRASIL. Lei nº 12.732, de 22 de novembro de 2012. Dispõe sobre o primeiro tratamento de paciente com neoplasia maligna comprovada e estabelece prazo para seu início. <i>Diário Oficial da União</i>, Brasília, DF, 23 nov. 2012.</p>
+<p>BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). <i>Diário Oficial da União</i>, Brasília, DF, 15 ago. 2018.</p>
+<p>BRASIL. Lei nº 13.896, de 30 de outubro de 2019. Altera a Lei nº 12.732, de 22 de novembro de 2012, para que os exames relacionados ao diagnóstico de neoplasia maligna sejam realizados no prazo de 30 dias. <i>Diário Oficial da União</i>, Brasília, DF, 2019a.</p>
+<p>BRASIL. Ministério da Saúde. Secretaria de Atenção Especializada à Saúde. Portaria nº 1.399, de 17 de dezembro de 2019. Redefine os critérios e parâmetros referenciais para a habilitação de estabelecimentos de saúde na alta complexidade em oncologia no âmbito do SUS. <i>Diário Oficial da União</i>, Brasília, DF, 2019b.</p>
+<p>BRASIL. Ministério da Saúde. DATASUS. <i>Painel-Oncologia</i>. Brasília, DF, 2026. Disponível em: https://datasus.saude.gov.br/. Acesso em: 13 set. 2026.</p>
+<p>FASTAPI. <i>FastAPI documentation</i>. 2026. Disponível em: https://fastapi.tiangolo.com/. Acesso em: 13 set. 2026.</p>
+<p>GOOGLE. <i>Gemini API documentation</i>. 2026. Disponível em: https://ai.google.dev/. Acesso em: 13 set. 2026.</p>
+<p>INSTITUTO NACIONAL DE CÂNCER (Brasil). <i>Estimativa 2023: incidência de câncer no Brasil</i>. Rio de Janeiro: INCA, 2022.</p>
+<p>INSTITUTO NACIONAL DE CÂNCER (Brasil). <i>Registros Hospitalares de Câncer (RHC)</i>. Rio de Janeiro, 2026. Disponível em: https://www.gov.br/inca/pt-br/assuntos/cancer/numeros/registros/rhc. Acesso em: 13 set. 2026.</p>
+<p>INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA. <i>Municípios brasileiros</i>. Rio de Janeiro, 2026. Disponível em: https://www.ibge.gov.br/. Acesso em: 13 set. 2026.</p>
+<p>KLEINROCK, L. <i>Queueing systems</i>: volume 1: theory. New York: Wiley, 1975.</p>
+<p>MICROSOFT. <i>Power BI documentation</i>. 2026. Disponível em: https://learn.microsoft.com/power-bi/. Acesso em: 13 set. 2026.</p>
+<p>ORACLE. <i>Use Select AI to generate SQL from natural language prompts</i>. Oracle Autonomous Database documentation. 2026. Disponível em: https://docs.oracle.com/en/cloud/paas/autonomous-database/. Acesso em: 13 set. 2026.</p>
+<p>OWASP FOUNDATION. <i>Password Storage Cheat Sheet</i>. 2026. Disponível em: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html. Acesso em: 13 set. 2026.</p>
+<p>RENDER. <i>Blueprint YAML reference</i>. 2026. Disponível em: https://render.com/docs/blueprint-spec. Acesso em: 13 set. 2026.</p>
+<p>SÃO PAULO (Estado). Secretaria de Estado da Saúde. <i>Departamentos Regionais de Saúde</i>. São Paulo, 2026. Disponível em: https://www.saude.sp.gov.br/. Acesso em: 13 set. 2026.</p>
+</div>
+
+<!-- ===================== APENDICES ===================== -->
+<h1>Apêndice A – Acessos, ambientes e segredos <span class="marca">§sec-apa§</span></h1>
+<p class="legenda">Quadro A.1 – Ambientes do projeto</p>
+<table>
+  <tr><th style="width:26%">Ambiente</th><th>Identificação</th></tr>
+  <tr><td>Site em produção</td><td><a href="https://prazo60.onrender.com">https://prazo60.onrender.com</a></td></tr>
+  <tr><td>Acesso para avaliação</td><td>Usuário <code>DATAHOLICS</code> · senha <code>PRAZO60</code></td></tr>
+  <tr><td>Repositório GitHub unificado</td><td><a href="https://github.com/bambulimeduardo-design/prazo60-plataforma">https://github.com/bambulimeduardo-design/prazo60-plataforma</a> (branch <code>main</code>): código da plataforma na raiz e entregas das Sprints 1 a 4 em <code>entregas/</code>, com o histórico de commits de Amanda Barral preservado</td></tr>
+  <tr><td>Hospedagem</td><td>Render · workspace Dataholics · Blueprint e Web Service <code>prazo60</code> (Free, Virginia, auto-deploy)</td></tr>
+  <tr><td>Banco de dados</td><td>Oracle Autonomous AI Database <code>Prazo60DB</code> · 26ai · Always Free · Lakehouse · <code>sa-saopaulo-1</code></td></tr>
+  <tr><td>Usuários do banco</td><td><code>ADMIN</code> (grupo) · <code>PRAZO60_APP</code> (aplicação, somente leitura em 8 views)</td></tr>
+  <tr><td>Modelo de linguagem</td><td>Google Gemini <code>gemini-flash-lite-latest</code> · perfil Select AI <code>PRAZO60_AI_GOOGLE</code></td></tr>
+  <tr><td>Power BI</td><td><a href="https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi">Painel Câncer de Mama SP</a> · três abas; também incorporado na página Power BI do site via <code>reportEmbed</code></td></tr>
+  <tr><td>Vídeo do projeto</td><td><a href="https://youtu.be/S02jso3E94o">https://youtu.be/S02jso3E94o</a> (YouTube)</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+<p class="legenda">Quadro A.2 – Localização dos segredos (valores não reproduzidos neste documento)</p>
+<table>
+  <tr><th style="width:36%">Segredo</th><th>Onde fica</th></tr>
+  <tr><td>Senhas do ADMIN e do PRAZO60_APP</td><td>Com o grupo; PRAZO60_APP também em <code>ORACLE_PASSWORD</code> (Render) e no <code>.env</code> local</td></tr>
+  <tr><td>Wallet e sua senha</td><td>Render › Secret Files (<code>tnsnames.ora</code>, <code>ewallet.pem</code>) e <code>ORACLE_WALLET_PASSWORD</code></td></tr>
+  <tr><td>Chave do Google AI Studio</td><td>Somente nas credenciais <code>GOOGLE_CRED</code> dentro do banco</td></tr>
+  <tr><td>Segredo de sessão</td><td>Gerado pelo Render (<code>SESSION_SECRET</code>)</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h1>Apêndice B – Artefatos, scripts e API <span class="marca">§sec-apb§</span></h1>
+<p class="legenda">Quadro B.1 – Estrutura do repositório</p>
+<pre>prazo60-plataforma/
+├── server/        main.py · settings.py · auth.py · analytics.py · simulation.py · select_ai.py · oracle/ · data/
+├── web/           public/ (login) · app/ (index.html, css/, js/core.js, charts.js, map.js, app.js, views/)
+├── etl/           build_data.py · fontes/ · relatorio_validacao.md
+├── scripts/       gerar_hash_senha.py · testar_select_ai.py · atualizar_perfil_views.py · SQL
+├── tests/         test_plataforma.py (35 testes)
+├── docs/          REQUISITOS.md · DEPLOY_RENDER.md · INTEGRACOES.md
+├── entregas/      SPRINT_01 · SPRINT_02 · SPRINT_03 (por disciplina) · SPRINT_04 (relatório técnico)
+├── render.yaml    Blueprint do Render
+└── requirements.txt</pre>
+<p class="legenda">Quadro B.2 – Ordem de execução dos scripts Oracle</p>
+<table>
+  <tr><th>#</th><th>Script</th><th>Conexão</th><th>Finalidade</th></tr>
+  <tr><td>0</td><td><code>00_verificar_antes.sql</code></td><td>ADMIN</td><td>Pré-requisitos</td></tr>
+  <tr><td>1</td><td><code>00_alterar_schema_residencia.sql</code></td><td>ADMIN</td><td>Coluna de residência</td></tr>
+  <tr><td>2</td><td><code>01_criar_staging.sql</code> e <code>01b_…parte1–5.sql</code></td><td>ADMIN</td><td>Staging com 45.416 casos</td></tr>
+  <tr><td>3</td><td><code>02a_popular_municipios.sql</code>, <code>02b_popular_unidades.sql</code></td><td>ADMIN</td><td>Dimensões</td></tr>
+  <tr><td>4</td><td><code>03_popular_fatos.sql</code></td><td>ADMIN</td><td>Casos e tratamentos</td></tr>
+  <tr><td>5</td><td><code>04_verificar_depois.sql</code></td><td>ADMIN</td><td>Conferência</td></tr>
+  <tr><td>6</td><td><code>05_select_ai_google.sql</code></td><td>ADMIN</td><td>Credencial e perfil Gemini</td></tr>
+  <tr><td>7</td><td><code>06a_usuario_site_ADMIN.sql</code></td><td>ADMIN</td><td>Usuário da aplicação</td></tr>
+  <tr><td>8</td><td><code>06b_select_ai_site_APP.sql</code></td><td>PRAZO60_APP</td><td>Credencial e perfil da aplicação</td></tr>
+  <tr><td>9</td><td><code>07_camada_analitica_select_ai.sql</code></td><td>ADMIN</td><td>Views, oferta e permissões</td></tr>
+</table>
+<p class="legenda">Quadro B.3 – Rotas da API</p>
+<table>
+  <tr><th>Método</th><th>Rota</th><th>Acesso</th><th>Função</th></tr>
+  <tr><td>POST</td><td><code>/api/auth/login</code></td><td>Público</td><td>Autenticação</td></tr>
+  <tr><td>POST</td><td><code>/api/auth/logout</code></td><td>Sessão</td><td>Encerrar sessão</td></tr>
+  <tr><td>GET</td><td><code>/api/saude</code></td><td>Público</td><td>Verificação de saúde</td></tr>
+  <tr><td>GET</td><td><code>/api/config</code>, <code>/api/referencia</code>, <code>/api/opcoes</code></td><td>Sessão</td><td>Configuração, mapa e filtros</td></tr>
+  <tr><td>GET</td><td><code>/api/painel</code></td><td>Sessão</td><td>Agregados do recorte e recomendações</td></tr>
+  <tr><td>GET</td><td><code>/api/localizador</code></td><td>Sessão</td><td>Unidades compatíveis</td></tr>
+  <tr><td>GET / POST</td><td><code>/api/simulacao/contexto</code>, <code>/api/simulacao</code></td><td>Sessão</td><td>Simulador</td></tr>
+  <tr><td>POST</td><td><code>/api/ia/perguntar</code></td><td>Sessão</td><td>Prazo60 AI</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h1>Apêndice C – Histórico de decisões <span class="marca">§sec-apc§</span></h1>
+<table>
+  <tr><th style="width:4%">#</th><th style="width:26%">Etapa</th><th>Problema, decisão e resultado</th></tr>
+  <tr><td>1</td><td>Site anterior</td><td>HTML de 855 KB e simulação de ocupação sem base em dados → nova plataforma preservando identidade e indicadores, com simulação sobre dados reais</td></tr>
+  <tr><td>2</td><td>Hospedagem</td><td>Render escolhido pelo grupo; deploy via Blueprint</td></tr>
+  <tr><td>3</td><td>ETL</td><td>Dados em nível de caso → base minimizada no servidor; 34/34 indicadores validados</td></tr>
+  <tr><td>4</td><td>Power BI</td><td>Link de visualização não incorporável → conversão automática para <code>reportEmbed</code></td></tr>
+  <tr><td>5</td><td>Carga Oracle</td><td>Status em cores e IBGE duplicado de São José do Rio Preto → scripts e cadastro corrigidos; 45.416 casos conferidos</td></tr>
+  <tr><td>6</td><td>Limpeza</td><td>8 tabelas de outra disciplina removidas após verificação de dependências</td></tr>
+  <tr><td>7</td><td>Select AI</td><td>OCI Generative AI sem cota (HTTP 429 em todos os modelos) → provedor Google Gemini</td></tr>
+  <tr><td>8</td><td>Segurança da chave</td><td>Chave exposta durante a configuração → chaves recriadas e mascaramento em scripts e logs</td></tr>
+  <tr><td>9</td><td>Usuário da aplicação</td><td><code>PRAZO60_APP</code> somente leitura; view sem data de nascimento</td></tr>
+  <tr><td>10</td><td>Estabilidade do modelo</td><td>503 e travamentos → <code>gemini-flash-lite-latest</code>, uma chamada por pergunta e tempo máximo</td></tr>
+  <tr><td>11</td><td>Publicação</td><td>Credencial Git de outra conta → remoto com usuário explícito; push e deploy concluídos</td></tr>
+  <tr><td>12</td><td>Qualidade da IA</td><td>Falhas em evolução, meses e demanda × oferta → camada analítica <code>VW_P60_*</code>, contexto e novas tentativas</td></tr>
+  <tr><td>13</td><td>Conciliação com o Power BI</td><td>Diferença de 765 casos entre painel e plataforma → identificados registros com tempo negativo contados como dentro do prazo; tabela de conciliação</td></tr>
+  <tr><td>14</td><td>Repositório unificado</td><td>Repositórios da plataforma e das Sprints 1 a 3 → unificados com os commits preservados, sem arquivos de dados individuais de pacientes (LGPD)</td></tr>
+</table>
+<p class="fonte">Fonte: elaborado pelos autores (2026).</p>
+
+<h1>Apêndice D – Glossário <span class="marca">§sec-apd§</span></h1>
+<table>
+  <tr><th style="width:24%">Termo</th><th>Significado</th></tr>
+  <tr><td>C50</td><td>Código da CID-10 para neoplasia maligna da mama</td></tr>
+  <tr><td>CACON / UNACON</td><td>Centro / Unidade de Assistência de Alta Complexidade em Oncologia, habilitados no SUS</td></tr>
+  <tr><td>CIB-SP</td><td>Comissão Intergestores Bipartite de São Paulo</td></tr>
+  <tr><td>CNES</td><td>Cadastro Nacional de Estabelecimentos de Saúde</td></tr>
+  <tr><td>DRS</td><td>Departamento Regional de Saúde; o Estado de São Paulo possui 17</td></tr>
+  <tr><td>ETL</td><td>Extração, transformação e carga de dados</td></tr>
+  <tr><td>LGPD</td><td>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018)</td></tr>
+  <tr><td>LLM</td><td>Modelo de linguagem de grande porte</td></tr>
+  <tr><td>mTLS / wallet</td><td>Autenticação TLS mútua; o wallet contém certificados de conexão ao Autonomous Database</td></tr>
+  <tr><td>Pressão assistencial</td><td>Casos por estabelecimento habilitado em uma região e ano</td></tr>
+  <tr><td>p.p.</td><td>Pontos percentuais</td></tr>
+  <tr><td>Select AI</td><td>Recurso do Oracle Autonomous Database que gera SQL a partir de linguagem natural</td></tr>
+  <tr><td>Supressão</td><td>Ocultação de indicadores em grupos com poucos casos, para proteger a privacidade</td></tr>
+</table>
+
+<script>
+  // Numera figuras e tabelas na ordem em que aparecem no documento.
+  (function () {
+    var f = 0, t = 0;
+    document.querySelectorAll('figcaption').forEach(function (el) {
+      el.innerHTML = el.innerHTML.replace(/^Figura \d+/, function () { return 'Figura ' + (++f); });
+    });
+    document.querySelectorAll('p.legenda').forEach(function (el) {
+      el.innerHTML = el.innerHTML.replace(/^Tabela \d+/, function () { return 'Tabela ' + (++t); });
+    });
+  })();
+
+  // Preenchido pelo gerador do PDF com as paginas reais de cada secao.
+  window.preencherSumario = function (paginas) {
+    document.querySelectorAll('.toc [data-ref]').forEach(function (el) {
+      el.textContent = paginas[el.dataset.ref] || '';
+    });
+    return true;
+  };
+</script>
+</body>
+</html>

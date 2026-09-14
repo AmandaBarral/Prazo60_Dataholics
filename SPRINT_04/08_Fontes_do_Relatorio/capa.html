@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Prazo60 · Capa</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #231E22; }
+  a { color: #8E1446; text-decoration: none; }
+  .capa { position: relative; width: 210mm; height: 297mm; padding: 22mm 25mm 18mm 30mm; display: flex; flex-direction: column; }
+  .faixa { position: absolute; left: 0; top: 0; bottom: 0; width: 9mm; background: #C2185B; }
+  .instituicao { display: flex; align-items: center; justify-content: space-between; gap: 10mm; padding-bottom: 5mm; border-bottom: 0.6pt solid #D9C6CF; }
+  .logo-fiap { height: 13mm; width: auto; display: block; }
+  .fiap-texto { font-size: 26pt; font-weight: 900; letter-spacing: 0.04em; color: #231E22; line-height: 1; }
+  .programa { text-align: right; font-size: 9.5pt; line-height: 1.5; color: #4A4148; }
+  .programa b { display: block; font-size: 13pt; letter-spacing: 0.18em; color: #8E1446; }
+  .autores { margin-top: 7mm; font-size: 10pt; letter-spacing: 0.12em; text-transform: uppercase; color: #8E1446; font-weight: bold; }
+  .nomes { margin-top: 2mm; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; column-gap: 8mm; row-gap: 1mm; font-size: 10pt; line-height: 1.45; color: #4A4148; }
+  .nomes span { white-space: nowrap; }
+  .centro { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .logo { width: 34mm; height: auto; margin-bottom: 8mm; }
+  h1 { font-size: 30pt; line-height: 1.1; margin: 0 0 6mm; color: #8E1446; letter-spacing: -0.01em; }
+  .subtitulo { font-size: 15pt; line-height: 1.45; margin: 0 0 8mm; max-width: 150mm; color: #231E22; }
+  .lema { font-size: 11.5pt; color: #C2185B; font-style: italic; margin: 0; }
+  .natureza { margin-top: 11mm; margin-left: 70mm; font-size: 10pt; line-height: 1.55; text-align: justify; color: #4A4148; }
+  .acesso { margin: 8mm 0 0 70mm; font-size: 9pt; line-height: 1.6; color: #4A4148; border-left: 2pt solid #C2185B; padding-left: 4mm; }
+  .acesso b { color: #231E22; display: inline-block; min-width: 20mm; }
+  .rodape { text-align: center; font-size: 11pt; line-height: 1.6; text-transform: uppercase; letter-spacing: 0.08em; color: #4A4148; }
+</style>
+</head>
+<body>
+  <section class="capa">
+    <div class="faixa"></div>
+    <div class="instituicao">
+      <!-- Logo oficial da FIAP (marca publicada em fiap.com.br), salvo em _fonte/logo-fiap.svg; sem o arquivo, a capa mostra o nome em texto. -->
+      <img class="logo-fiap" src="logo-fiap.svg" alt="FIAP"
+           onerror="this.insertAdjacentHTML('afterend','<span class=&quot;fiap-texto&quot;>FIAP</span>'); this.remove();">
+      <div class="programa"><b>CHALLENGE</b>Enterprise Challenge Oracle x FIAP · Turma 1TSCPV<br>Banca avaliadora: Oracle</div>
+    </div>
+    <div class="autores">Grupo Dataholics</div>
+    <div class="nomes">
+      <span>Amanda Barral · RM569662</span>
+      <span>Eduardo Bambulim · RM573228</span>
+      <span>Gabriela Fernandes · RM568972</span>
+      <span>Julia Furiate · RM570547</span>
+      <span>Lívia Santos · RM573963</span>
+    </div>
+    <div class="centro">
+      <img class="logo" src="../../prazo60-plataforma/web/public/assets/logo-prazo60-256.png" alt="Logo Prazo60">
+      <h1>PRAZO60</h1>
+      <p class="subtitulo">Plataforma de inteligência em saúde pública para monitoramento do prazo legal de 60 dias no tratamento do câncer de mama no SUS do Estado de São Paulo</p>
+      <p class="lema">Diagnóstico não pode esperar. Tratamento também não.</p>
+      <p class="natureza">Trabalho apresentado à FIAP no Enterprise Challenge Oracle x FIAP, com avaliação da banca da Oracle, documentando problema, fundamentação, metodologia, desenvolvimento, resultados e funcionamento da plataforma publicada e do painel Power BI.</p>
+      <div class="acesso">
+        <b>Site</b> <a href="https://prazo60.onrender.com">prazo60.onrender.com</a><br>
+        <b>GitHub</b> <a href="https://github.com/bambulimeduardo-design/prazo60-plataforma">github.com/bambulimeduardo-design/prazo60-plataforma</a><br>
+        <b>Power BI</b> <a href="https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi">Painel Câncer de Mama SP</a><br>
+        <b>Vídeo</b> <a href="https://youtu.be/S02jso3E94o">youtu.be/S02jso3E94o</a>
+      </div>
+    </div>
+    <div class="rodape">FIAP<br>São Paulo<br>2026</div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿PRAZO60 - GRUPO DATAHOLICS
+Enterprise Challenge Oracle x FIAP - Turma 1TSCPV - Banca avaliadora: Oracle
+Amanda Barral (RM569662) | Eduardo Bambulim (RM573228) | Gabriela Fernandes (RM568972)
+Julia Furiate (RM570547) | Livia Santos (RM573963)
+
+LINKS
+Plataforma web ........ https://prazo60.onrender.com  (usuario DATAHOLICS / senha PRAZO60)
+GitHub (unificado) .... https://github.com/bambulimeduardo-design/prazo60-plataforma
+Painel Power BI ....... https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi
+Video do projeto ...... https://youtu.be/S02jso3E94o
+
+CONTEUDO DE SPRINT_4
+01_Relatorio_Final_Prazo60.pdf ....... relatorio completo (formato TCC)
+02_Relatorio_Tecnico_Sprint_4.pdf .... relatorio tecnico da Sprint 4
+03_Codigo_Fonte_Plataforma/ .......... site, API, ETL, testes e deploy (Render)
+04_Scripts_SQL_Oracle/ ............... carga e camada analitica do Oracle Autonomous Database (ordem no README_carga.md)
+05_Documentacao/ ..................... indice geral, 12 documentos de detalhamento e documentos do repositorio
+06_Evidencias/ ....................... capturas da plataforma, 3 abas do Power BI e arquitetura
+07_Identidade_Visual/ ................ logos em JPEG HD
+08_Fontes_do_Relatorio/ .............. arquivos que geram o PDF e as capturas
+
+NOTA LGPD
+Nao ha senhas do banco, wallet nem chaves de API neste pacote. Os extratos com dados individuais de
+pacientes (data de nascimento e datas exatas) nao foram incluidos; as datas de nascimento do script DML
+da Sprint 3 foram generalizadas para 01/01 do ano. Os microdados publicos estao em
+ftp://ftp.datasus.gov.br/dissemin/publicos/painel_oncologia/Dados/
