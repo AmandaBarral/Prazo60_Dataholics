@@ -38,9 +38,9 @@ Da informação à ação: integração de dados, monitoramento, análise predit
 
 ## Demonstração
 
-Link do dashboard (Power BI): _[completar]_
+Link do dashboard (Power BI): https://app.powerbi.com/groups/me/reports/0a799b85-3b20-4162-81b6-d3a61ba73ff7/d1bb6caba29ffc924e85?experience=power-bi
 
-Vídeo pitch (YouTube): _[completar]_
+Vídeo pitch (YouTube): https://www.youtube.com/watch?v=S02jso3E94o
 
 
 ## Time Dataholics
